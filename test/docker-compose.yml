@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: oil_price_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-oilprice}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-oilprice123}
+      POSTGRES_DB: ${DB_NAME:-oilprice_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-oilprice} -d ${DB_NAME:-oilprice_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
+volumes:
+  pg_data:

@@ -55,6 +55,9 @@ func main() {
 	// Register API routes
 	h.RegisterRoutes(app)
 
+	// Register API key endpoint (public, no auth)
+	app.Post("/register", handler.RegisterAPIKeyHandler(db))
+
 	// Setup cron job — runs daily at 1:00 AM
 	c := cron.New()
 	_, err = c.AddFunc("0 1 * * *", func() {

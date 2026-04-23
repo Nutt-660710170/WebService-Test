@@ -26,8 +26,8 @@ func Connect(cfg *config.Config) (*gorm.DB, error) {
 		return nil, fmt.Errorf("failed to connect to database: %w", err)
 	}
 
-	// Auto-migrate the OilPrice table
-	if err := db.AutoMigrate(&domain.OilPrice{}); err != nil {
+	// Auto-migrate the OilPrice, APIKey, and Subscription tables
+	if err := db.AutoMigrate(&domain.OilPrice{}, &domain.APIKey{}, &domain.Subscription{}); err != nil {
 		return nil, fmt.Errorf("failed to auto-migrate: %w", err)
 	}
 
